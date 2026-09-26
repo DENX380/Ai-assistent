@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Локальный ИИ-агент</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <aside id="chat-panel">
+    <header class="panel-header">
+      <div class="brand">
+        <span class="dot"></span>
+        <span>Агент</span>
+      </div>
+      <div class="header-actions">
+        <button id="prompt-btn" class="icon-btn" title="Показать промпт агента">📜</button>
+        <button id="settings-btn" class="icon-btn" title="Настройки интерфейса">⚙</button>
+        <select id="model-select" title="Выбор модели">
+          <option value="">Загрузка моделей…</option>
+        </select>
+      </div>
+    </header>
+
+    <div id="messages"></div>
+
+    <div id="tool-activity" class="hidden"></div>
+
+    <form id="chat-form">
+      <textarea id="chat-input" placeholder="Спросите что-нибудь…" rows="1"></textarea>
+      <button id="send-btn" type="submit" title="Отправить">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M3 11l18-8-8 18-2-8-8-2z" fill="currentColor"/></svg>
+      </button>
+    </form>
+  </aside>
+
+  <main id="canvas-wrap">
+    <div id="canvas-toolbar">
+      <div id="boards-bar"></div>
+
+      <div id="canvas-search-wrap">
+        <input id="widget-search" type="text" placeholder="Поиск по виджетам…" />
+      </div>
+
+      <div id="canvas-toolbar-right">
+        <button id="zoom-out-btn" class="icon-btn small" title="Отдалить">−</button>
+        <span id="zoom-level">100%</span>
+        <button id="zoom-in-btn" class="icon-btn small" title="Приблизить">+</button>
+        <button id="zoom-reset-btn" class="icon-btn small" title="Сбросить вид">⤾</button>
+        <span id="widget-count"></span>
+      </div>
+    </div>
+
+    <div id="canvas-viewport">
+      <div id="canvas"></div>
+    </div>
+    <div id="canvas-hint" class="hidden">Здесь появятся виджеты, которые создаст агент</div>
+  </main>
+
+</div>
+
+<div id="confirm-overlay" class="hidden">
+  <div id="confirm-modal">
+    <div class="confirm-icon">⚠</div>
+    <h3>Агент хочет выполнить команду</h3>
+    <pre id="confirm-command"></pre>
+    <p class="confirm-note">Разрешать команды стоит, только если вы понимаете, что они делают.</p>
+    <div class="confirm-actions">
+      <button id="confirm-deny" class="btn-secondary">Отклонить</button>
+      <button id="confirm-allow" class="btn-danger">Разрешить</button>
+    </div>
+  </div>
+</div>
+
+<div id="prompt-overlay" class="hidden">
+  <div id="prompt-modal" class="side-modal">
+    <div class="side-modal-header">
+      <h3>Системный промпт агента</h3>
+      <button id="prompt-close" class="icon-btn">&times;</button>
+    </div>
+    <p class="side-modal-note">Это ровно то, что модель получает перед каждым вашим сообщением (плюс история диалога).</p>
+    <pre id="prompt-content">Загрузка…</pre>
+  </div>
+</div>
+
+<div id="settings-overlay" class="hidden">
+  <div id="settings-modal" class="side-modal">
+    <div class="side-modal-header">
+      <h3>Персонализация интерфейса</h3>
+      <button id="settings-close" class="icon-btn">&times;</button>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label">Акцентный цвет</div>
+      <div id="accent-swatches" class="swatches"></div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label">Фон рабочей области</div>
+      <div id="bg-options" class="option-row">
+        <button data-bg="dots" class="option-btn">Точки</button>
+        <button data-bg="grid" class="option-btn">Сетка</button>
+        <button data-bg="plain" class="option-btn">Чисто</button>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label">Скругление виджетов: <span id="radius-value">14px</span></div>
+      <input id="radius-slider" type="range" min="0" max="26" value="14" />
+    </div>
+
+    <div class="settings-section">
+      <button id="settings-reset" class="btn-secondary">Сбросить к настройкам по умолчанию</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
